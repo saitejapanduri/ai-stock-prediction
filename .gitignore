@@ -1,0 +1,20 @@
+# Secrets
+.env
+
+# Trained model artifacts (regenerate with train_models.py)
+models/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+
+# Streamlit
+.streamlit/
+
+# OS / editor junk
+.DS_Store
+.vscode/
+.idea/
