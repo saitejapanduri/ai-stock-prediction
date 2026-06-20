@@ -1,0 +1,10 @@
+streamlit
+pandas
+numpy
+yfinance
+matplotlib
+tensorflow
+scikit-learn
+newsapi-python
+textblob
+python-dotenv
