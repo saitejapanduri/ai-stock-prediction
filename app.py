@@ -4,6 +4,7 @@ import numpy as np
 import pickle
 import yfinance as yf
 import matplotlib.pyplot as plt
+import datetime
 
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense, Dropout, Input
@@ -104,6 +105,15 @@ data = yf.download(stock, start="2018-01-01")
 
 if isinstance(data.columns, pd.MultiIndex):
     data.columns = data.columns.get_level_values(0)
+
+# FIX: drop today's row if the market hasn't closed yet, so indicators
+# and predictions are anchored to the last FULLY completed trading day
+today = datetime.datetime.now().date()
+market_close_time = datetime.time(15, 30)  # NSE closes 3:30 PM IST
+now = datetime.datetime.now().time()
+
+if data.index[-1].date() == today and now < market_close_time:
+    data = data.iloc[:-1]
 
 # Indicators
 data["MA20"] = data["Close"].rolling(20).mean()
