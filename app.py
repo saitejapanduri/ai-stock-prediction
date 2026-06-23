@@ -4,7 +4,6 @@ import numpy as np
 import pickle
 import yfinance as yf
 import matplotlib.pyplot as plt
-import datetime
 
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense, Dropout, Input
@@ -39,7 +38,6 @@ def calculate_support_resistance(df):
     resistance = df["High"].rolling(20).max().iloc[-1]
     return support, resistance
 
-# ---------------- NEW LOGIC FUNCTIONS ---------------- #
 
 def calculate_atr(df, period=14):
     high_low = df["High"] - df["Low"]
@@ -76,7 +74,6 @@ def calculate_stoploss(entry_price, atr, signal):
     else:
         return None
 
-
 def calculate_target(entry_price, stoploss, signal):
     risk = abs(entry_price - stoploss)
     reward_ratio = 2
@@ -88,9 +85,6 @@ def calculate_target(entry_price, stoploss, signal):
     else:
         return None
 
-# -------------------------------
-# LOAD MODELS
-# -------------------------------
 rf = pickle.load(open(f"models/{stock}_rf.pkl","rb"))
 open_model = pickle.load(open(f"models/{stock}_open_model.pkl","rb"))
 scaler = pickle.load(open(f"models/{stock}_scaler.pkl","rb"))
@@ -98,22 +92,10 @@ scaler = pickle.load(open(f"models/{stock}_scaler.pkl","rb"))
 lstm = build_lstm()
 lstm.load_weights(f"models/{stock}_lstm_weights.weights.h5")
 
-# -------------------------------
-# LOAD DATA
-# -------------------------------
 data = yf.download(stock, start="2018-01-01")
 
 if isinstance(data.columns, pd.MultiIndex):
     data.columns = data.columns.get_level_values(0)
-
-# FIX: drop today's row if the market hasn't closed yet, so indicators
-# and predictions are anchored to the last FULLY completed trading day
-today = datetime.datetime.now().date()
-market_close_time = datetime.time(15, 30)  # NSE closes 3:30 PM IST
-now = datetime.datetime.now().time()
-
-if data.index[-1].date() == today and now < market_close_time:
-    data = data.iloc[:-1]
 
 # Indicators
 data["MA20"] = data["Close"].rolling(20).mean()
@@ -163,9 +145,6 @@ st.subheader("Support & Resistance")
 st.write("Support Level:", round(support,2))
 st.write("Resistance Level:", round(resistance,2))
 
-# -------------------------------
-# PREDICTION
-# -------------------------------
 
 if st.button("Predict Future Price"):
 
