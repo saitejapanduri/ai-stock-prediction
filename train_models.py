@@ -11,7 +11,7 @@ from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense, Dropout, Input
 
-stocks = ["RELIANCE.NS","TCS.NS","INFY.NS","HDFCBANK.NS"]
+stocks = ["RELIANCE.NS","TCS.NS","INFY.NS","HDFCBANK.NS","ASHOKLEY.NS"]
 
 LOOKBACK = 60
 

@@ -12,7 +12,8 @@ TICKER_TO_NAME = {
     "RELIANCE.NS": "Reliance Industries",
     "TCS.NS": "Tata Consultancy Services",
     "INFY.NS": "Infosys",
-    "HDFCBANK.NS": "HDFC Bank"
+    "HDFCBANK.NS": "HDFC Bank",
+    "ASHOKLEY.NS": "Ashok Leyland"
 }
 
 def get_sentiment(company):

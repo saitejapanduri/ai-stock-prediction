@@ -18,7 +18,7 @@ st.title("Stock Price Prediction System")
 
 stock = st.selectbox(
     "Select Stock",
-    ["RELIANCE.NS","TCS.NS","INFY.NS","HDFCBANK.NS"]
+    ["RELIANCE.NS","TCS.NS","INFY.NS","HDFCBANK.NS","ASHOKLEY.NS"]
 )
 
 days = st.slider("Prediction Days", 1, 5, 3)
